@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  c1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UBUNTU_VERSION: 16.04
+    container_name: c1
+    networks:
+      - ssh_lab_net
+    command: ["tail", "-f", "/dev/null"] # Mantiene el contenedor vivo
+    tty: true
+
+  c2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UBUNTU_VERSION: 18.04
+    container_name: c2
+    networks:
+      - ssh_lab_net
+    command: ["tail", "-f", "/dev/null"]
+    tty: true
+
+  c3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UBUNTU_VERSION: 20.04
+    container_name: c3
+    networks:
+      - ssh_lab_net
+    command: ["tail", "-f", "/dev/null"]
+    tty: true
+
+  c4_s1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UBUNTU_VERSION: 22.04
+    container_name: c4_s1
+    networks:
+      - ssh_lab_net
+    # El entrypoint se encargará de iniciar el servidor SSH
+    command: /entrypoint.sh 
+    tty: true
+
+networks:
+  ssh_lab_net:
+    driver: bridge
